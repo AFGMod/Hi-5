@@ -13,8 +13,6 @@ ENT.TauntSounds = {
 }
 local chaseMusic = Sound("npc_hi5/panic.mp3")
 
-local workshopID = "174117071"
-
 local IsValid = IsValid
 
 if SERVER then -- SERVER --
@@ -81,10 +79,6 @@ local npc_hi5_force_download =
 local TAUNT_INTERVAL = 1.2
 local PATH_INFRACTION_TIMEOUT = 5
 
-if npc_hi5_force_download:GetBool() then
-	resource.AddWorkshop(workshopID)
-end
-
 util.AddNetworkString("Hi-5_nag")
 util.AddNetworkString("Hi-5_navgen")
 
@@ -120,10 +114,10 @@ local function isPositionExposed(pos)
 	return false
 end
 
-local VECTOR_Hi-5_HEIGHT = Vector(0, 0, 96)
+local VECTOR_Hi_HEIGHT = Vector(0, 0, 96)
 local function isPointSuitableForHiding(point)
 	trace.start = point
-	trace.endpos = point + VECTOR_Hi-5_HEIGHT
+	trace.endpos = point + VECTOR_Hi_HEIGHT
 	local tr = util.TraceLine(trace)
 
 	return (not tr.Hit)
@@ -307,8 +301,8 @@ local function navGenerate()
 	end
 
 	-- The least we can do is ensure they don't have to listen to this noise.
-	for _, Hi-5 in pairs(ents.FindByClass("npc_hi5")) do
-		Hi-5:Remove()
+	for _, Hi5 in pairs(ents.FindByClass("npc_hi5")) do
+		Hi5:Remove()
 	end
 
 	-- This isn't strictly necessary since we just added EVERY spawnpoint as a
@@ -817,7 +811,7 @@ end
 
 else -- CLIENT --
 
-local MAT_Hi-5 = Material("npc_hi5/Hi-5")
+local MAT_Hi5 = Material("npc_hi5/hi5")
 killicon.Add("npc_hi5", "npc_hi5/killicon", color_white)
 language.Add("npc_hi5", "Hi-5 ")
 
@@ -851,10 +845,10 @@ local MUSIC_CUTOFF_DISTANCE = 1000
 local MUSIC_PANIC_DISTANCE = 200
 
  -- That's a lot of Hi-5.
-local MUSIC_Hi-5_PANIC_COUNT = 8
+local MUSIC_Hi5_PANIC_COUNT = 8
 
-local MUSIC_Hi-5_MAX_DISTANCE_SCORE =
-	(MUSIC_CUTOFF_DISTANCE - MUSIC_PANIC_DISTANCE) * MUSIC_Hi-5_PANIC_COUNT
+local MUSIC_Hi5_MAX_DISTANCE_SCORE =
+	(MUSIC_CUTOFF_DISTANCE - MUSIC_PANIC_DISTANCE) * MUSIC_Hi5_PANIC_COUNT
 
 local function updatePanicMusic()
 	if #ents.FindByClass("npc_hi5") == 0 then
@@ -895,7 +889,7 @@ local function updatePanicMusic()
 	end
 
 	local musicVolume = math.min(1,
-		totalDistanceScore / MUSIC_Hi-5_MAX_DISTANCE_SCORE)
+		totalDistanceScore / MUSIC_Hi5_MAX_DISTANCE_SCORE)
 
 	local shouldRestartMusic = (CurTime() - lastPanic >= MUSIC_RESTART_DELAY)
 	if musicVolume > 0 then
@@ -947,7 +941,7 @@ end
 
 local DRAW_OFFSET = SPRITE_SIZE / 2 * vector_up
 function ENT:DrawTranslucent()
-	render.SetMaterial(MAT_Hi-5)
+	render.SetMaterial(MAT_Hi5)
 
 	-- Get the normal vector from Hi-5 to the player's eyes, and then compute
 	-- a corresponding projection onto the xy-plane.
@@ -1121,6 +1115,6 @@ end
 list.Set("NPC", "npc_hi5", {
 	Name = "Hi-5",
 	Class = "npc_hi5",
-	Category = "Nextbot",
+	Category = "AFGMod's NextBots",
 	AdminOnly = false
 })
