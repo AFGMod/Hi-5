@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "npc_hi5/hi-5"
+	"$alphatest" 1
+}
